@@ -5,6 +5,7 @@ public class Statistics {
     public int numGeneratedNodes = 1; //due to the initial node
     public int maxFrontierSize;
     
+    
     public void reset(){
         numExpandedNodes = 0;
         numGeneratedNodes = 1;

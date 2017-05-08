@@ -15,6 +15,7 @@ public abstract class Problem <S extends State>{
     
     public abstract List<S> executeActions (S state);
     
+
     public abstract boolean isGoal (S state);
 
     /**

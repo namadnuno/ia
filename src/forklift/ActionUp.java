@@ -8,6 +8,7 @@ public class ActionUp extends Action<ForkliftState>{
         super(1);
     }
 
+    
     public void execute(ForkliftState state){
         state.moveUp();
         state.setAction(this);

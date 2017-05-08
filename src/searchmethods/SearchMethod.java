@@ -12,4 +12,8 @@ public interface SearchMethod {
    void stop();
    
    boolean hasBeenStopped();
+   
+   double getTempoInicial();
+   
+   double getTempoFinal();
 }

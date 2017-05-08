@@ -14,6 +14,8 @@ public abstract class GraphSearch<L extends NodeCollection> implements SearchMet
     protected Set<State> explored = new HashSet<State>();
     protected Statistics statistics = new Statistics();    
     protected boolean stopped;
+    protected double tempoInicial;
+    protected double tempofinal;
 
     @Override
     public Solution search(Problem problem) {
@@ -35,13 +37,17 @@ public abstract class GraphSearch<L extends NodeCollection> implements SearchMet
         return failure
      */
     protected Solution graphSearch(Problem problem) {
-        
+        tempoInicial = System.currentTimeMillis();
+        statistics.reset();
         frontier.clear();
         explored.clear();
         frontier.add(new Node (problem.getInitialState()));
         while (!frontier.isEmpty() && !stopped){
             Node n = frontier.poll();
             if(problem.isGoal(n.getState())){
+                tempofinal= System.currentTimeMillis();
+                System.out.println(tempofinal);
+                
                 return new Solution(problem, n);
             }
             explored.add(n.getState());
@@ -49,7 +55,9 @@ public abstract class GraphSearch<L extends NodeCollection> implements SearchMet
             addSuccessorsToFrontier(successors, n);
             computeStatistics(successors.size());
         }       
+        tempofinal= System.currentTimeMillis();
         return null;
+        
     }
 
     public abstract void addSuccessorsToFrontier(List<State> successors, Node parent);
@@ -70,6 +78,14 @@ public abstract class GraphSearch<L extends NodeCollection> implements SearchMet
 
     public boolean hasBeenStopped() {
         return stopped;
+    }
+    
+    public double getTempoFinal(){
+        return tempofinal;
+    }
+    
+    public double getTempoInicial(){
+        return tempoInicial;
     }
 }
     

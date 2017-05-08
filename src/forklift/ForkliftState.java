@@ -8,8 +8,6 @@ import java.util.Arrays;
 public class ForkliftState extends State implements Cloneable {
 
     
-    static final int[] linesfinalMatrix = {0, 0, 0, 1, 1, 1, 2, 2, 2};
-    static final int[] colsfinalMatrix = {0, 1, 2, 0, 1, 2, 0, 1, 2};
     public static final int SIZE = 6;
     private int[][] matrix;
     private int forkliftRow;  //linhacarrinho
@@ -29,11 +27,12 @@ public class ForkliftState extends State implements Cloneable {
         }
     }
 
+    @Override
     public void executeAction(Action action) {
         action.execute(this);
         firePuzzleChanged(null);
     }
-
+//
     public boolean canMoveUp() {
         return forkliftRow != 0 && matrix[forkliftRow-1][forkliftColumm] == 0; //para carrinho procurar caminho  (não é o objetivo)
     }

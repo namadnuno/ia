@@ -22,13 +22,41 @@ public class IterativeDeepeningSearch extends DepthFirstSearch {
 
     @Override
     public Solution search(Problem problem) {
-        //TODO
-        return null;
+        //DONE
+        statistics.reset();
+        stopped = false;
+        limit = 0;
+        Solution solution;
+        do {
+            solution= graphSearch(problem);
+            limit++;
+        } while (solution == null);
+        
+        return solution;
     }
     
     @Override
     protected Solution graphSearch(Problem problem) {
-        //TODO
+        //DONE
+        tempoInicial = System.currentTimeMillis();
+        frontier.clear();
+        frontier.add(new Node (problem.getInitialState()));
+        
+        while (!frontier.isEmpty() && !stopped){
+            Node n = frontier.poll();
+            if(n.getDepth() == limit && problem.isGoal(n.getState())){
+                tempofinal = System.currentTimeMillis();
+                return new Solution(problem, n);
+            }
+           
+            List<State> successors = problem.executeActions(n.getState());
+            
+            if (n.getDepth() < limit){
+                addSuccessorsToFrontier(successors, n);
+            }
+            computeStatistics(successors.size());
+        }
+        tempofinal = System.currentTimeMillis();
         return null;
     }
 

@@ -16,25 +16,28 @@ public class DepthFirstSearch extends GraphSearch<NodeLinkedList> {
     @Override
     protected Solution graphSearch(Problem problem) {
         frontier.clear();
+        tempoInicial = System.currentTimeMillis();
         
         frontier.add(new Node (problem.getInitialState()));
         while (!frontier.isEmpty() && !stopped){
             Node n = frontier.poll();
             if(problem.isGoal(n.getState())){
+                tempofinal = System.currentTimeMillis();
                 return new Solution(problem, n);
             }
            
             List<State> successors = problem.executeActions(n.getState());
             addSuccessorsToFrontier(successors, n);
             computeStatistics(successors.size());
-        }       
+        } 
+        tempofinal = System.currentTimeMillis();
         return null;
     }
 
     
     //pela direita
     public void addSuccessorsToFrontier(List<State> successors, Node parent) {
-        //TODO
+        //DONE
         
         for (State s: successors){
             if(!frontier.containsState(s)){
