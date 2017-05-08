@@ -38,7 +38,7 @@ public class ForkliftState extends State implements Cloneable {
     }
 
     public boolean canMoveRight() {
-        return forkliftColumm != matrix.length - 1;
+        return (forkliftColumm != matrix.length - 1) && (matrix[forkliftRow + 1][forkliftColumm] != 0);
     }
 
     public boolean canMoveDown() {
@@ -46,8 +46,8 @@ public class ForkliftState extends State implements Cloneable {
     }
 
     public boolean canMoveLeft() {
-        return forkliftColumm != 0;
-    }
+        return forkliftColumm != 0 && (matrix[forkliftRow - 1][forkliftColumm] != 0);
+    } 
 
     /*
      * In the next four methods we don't verify if the actions are valid.
