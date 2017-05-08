@@ -19,7 +19,7 @@ public class ForkliftState extends State implements Cloneable {
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
                 this.matrix[i][j] = matrix[i][j];
-                if (this.matrix[i][j] == 0) {
+                if (this.matrix[i][j] == 1) {
                     forkliftRow = i;
                     forkliftColumm = j;
                 }
@@ -34,7 +34,7 @@ public class ForkliftState extends State implements Cloneable {
     }
 //
     public boolean canMoveUp() {
-        return forkliftRow != 0 && matrix[forkliftRow-1][forkliftColumm] == 0; //para carrinho procurar caminho  (não é o objetivo)
+        return false;
     }
 
     public boolean canMoveRight() {
@@ -42,7 +42,7 @@ public class ForkliftState extends State implements Cloneable {
     }
 
     public boolean canMoveDown() {
-        return forkliftRow != matrix.length - 1;
+        return false;
     }
 
     public boolean canMoveLeft() {

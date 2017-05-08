@@ -17,6 +17,7 @@ public class ForkliftProblem extends Problem<ForkliftState> {
         actions.add(new ActionDown());
         actions.add(new ActionLeft());
         
+        
     }
     
     @Override
@@ -36,6 +37,7 @@ public class ForkliftProblem extends Problem<ForkliftState> {
     
     @Override
     public boolean isGoal(ForkliftState state){
+        System.out.println(state.getForkliftColumm() == state.getNumColumns()-1);
         return state.getForkliftColumm() == state.getNumColumns()-1;
     }
     
