@@ -7,17 +7,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ForkliftProblem extends Problem<ForkliftState> {
-
-    private ForkliftState goalState; //desnecessário
     
     public ForkliftProblem(ForkliftState initialState){
         super(initialState, new ArrayList<Action>());
-        actions.add(new ActionUp());
-        actions.add(new ActionRight());
-        actions.add(new ActionDown());
-        actions.add(new ActionLeft());
-        
-        
     }
     
     @Override
@@ -25,19 +17,47 @@ public class ForkliftProblem extends Problem<ForkliftState> {
         //throw new UnsupportedOperationException("Not supported yet.");
         List<ForkliftState> successors = new LinkedList<ForkliftState>();
         
-        for(Action a: actions){
-            if (a.isValid(state)){
+        //percorrer peças
+        
+        Peca forklift = state.getForklift();
+        
+        if(forklift == null) {
+            return null;
+        }
+        
+        boolean flag = true;
+        
+        do {
+            ActionPeca a = new ActionRight();
+            a.setPeca(forklift);
+            if (a.isValid(state, forklift)) {
                 ForkliftState successor = (ForkliftState) state.clone();
-                successor.executeAction(a);
+                successor.executeAction(a, forklift);
+                successor.setPeca(forklift);
                 successors.add(successor);
+            } else {
+                flag = false;
+            }
+        } while(flag == true);
+        
+        for(Peca p: state.getPecas()) {
+            for(ActionPeca a: p.getActions()){
+                if (a.isValid(state, p)) {
+                    ForkliftState successor = (ForkliftState) state.clone();
+                    successor.executeAction(a, p);
+                    System.out.println(successor.toString());
+                    a.setPeca(p);
+                    successors.add(successor);
+                }
             }
         }
+        
         return successors;
-    }
+    } 
     
     @Override
     public boolean isGoal(ForkliftState state){
-        System.out.println(state.getForkliftColumm() == state.getNumColumns()-1);
+        System.out.println("estou:" + state.getForkliftColumm());
         return state.getForkliftColumm() == state.getNumColumns()-1;
     }
     

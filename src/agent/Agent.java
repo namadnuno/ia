@@ -1,5 +1,7 @@
 package agent;
 
+import forklift.ActionPeca;
+import forklift.Peca;
 import java.util.ArrayList;
 import searchmethods.*;
 
@@ -38,8 +40,9 @@ public class Agent<E extends State> {
     }
 
     public void executeSolution() {    
+        System.out.println("Solution");
         for(Action action : solution.getActions()){
-            environment.executeAction(action);
+            environment.executeAction(action, ((ActionPeca) action).getPeca());
         }
     }
 
@@ -100,6 +103,7 @@ public class Agent<E extends State> {
         sb.append("Num of expanded nodes: " + searchMethod.getStatistics().numExpandedNodes + "\n");
         sb.append("Max frontier size: " + searchMethod.getStatistics().maxFrontierSize + "\n");
         sb.append("Num of generated nodes: " + searchMethod.getStatistics().numGeneratedNodes+ "\n");
+        sb.append("Time in sec: " + (searchMethod.getTempoFinal() - searchMethod.getTempoInicial())/1000 + "\n");
 
         return sb.toString();
     }

@@ -2,18 +2,24 @@ package forklift;
 
 import agent.Action;
 
-public class ActionRight extends Action<ForkliftState>{
-
+public class ActionRight extends ActionPeca{
+    
+    
     public ActionRight(){
         super(1);
     }
 
-    public void execute(ForkliftState state){
-        state.moveRight();
+    public void execute(ForkliftState state, Peca p){
+        state.moveRight(p);
         state.setAction(this);
     }
 
-    public boolean isValid(ForkliftState state){
-        return state.canMoveRight();
+    public boolean isValid(ForkliftState state, Peca p){
+        return state.canMoveRight(p);
+    }
+    
+    @Override
+    public String toString() {
+        return "ActionRight";
     }
 }

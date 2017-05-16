@@ -11,8 +11,8 @@ public class ForkliftAgent extends Agent<ForkliftState>{
     public ForkliftAgent(ForkliftState environemt) {
         super(environemt);
         initialEnvironment = (ForkliftState) environemt.clone();
-        heuristics.add(new HeuristicTileDistance());
-        heuristics.add(new HeuristicTilesOutOfPlace());
+        heuristics.add(new HeuristicDistanceBetweenDoor());
+        heuristics.add(new HeuristicObjectsBetweenDoor());
         heuristic = heuristics.get(0);
     }
             

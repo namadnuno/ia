@@ -20,12 +20,8 @@ public class ForkliftCellRenderer extends JLabel implements TableCellRenderer {
             int column) {
         
         table.setShowGrid(false);
-        
-       /* String text = (((Integer) value).intValue() == 0) ? "" : ((Integer) value).toString();
-        setText(text);*/
 
         ImageLoader loader = ImageLoader.getLoader();
-        //setText("");
         switch(((Integer) value).intValue()){
             case 0: setIcon(loader.getIcon(Properties.EMPTY_IMAGE));
                     break;

@@ -1,5 +1,7 @@
 package agent;
 
+import forklift.Peca;
+
 public abstract class State{
 
     /**
@@ -10,7 +12,7 @@ public abstract class State{
     public State(){
     }
 
-    public abstract void executeAction(Action action);
+    public abstract void executeAction(Action action, Peca n);
     
     public Action getAction(){
         return action;

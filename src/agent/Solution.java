@@ -1,5 +1,6 @@
 package agent;
 
+import forklift.Peca;
 import java.util.LinkedList;
 import java.util.List;
 import searchmethods.Node;
@@ -7,6 +8,7 @@ import searchmethods.Node;
 public class Solution {
     private Problem problem;
     private LinkedList<Action> actions = new LinkedList<Action>();
+
 
     public Solution(Problem problem, Node goalNode){
         this.problem = problem;
