@@ -14,14 +14,12 @@ import java.util.List;
  * @author Rúben Gonçalves
  */
 public abstract class Peca {
-    private Posicao posicaoInicio;
-    private Posicao posicaoFim; //ideia para lista de acções
+    private List <Posicao> posicoes;
     private int digito;
     protected List <ActionPeca> actions;
     
     public Peca(Posicao posicaoInicio, Posicao posicaoFim, int digito) {
-        this.posicaoInicio = posicaoInicio;
-        this.posicaoFim = posicaoFim;
+        posicoes = new ArrayList<Posicao>();
         this.digito = digito;
         actions = new ArrayList<ActionPeca>();
     }
@@ -30,28 +28,8 @@ public abstract class Peca {
         return digito;
     }
 
-    public Posicao getPosicaoFim() {
-        return posicaoFim;
-    }
-
-    public Posicao getPosicaoInicio() {
-        return posicaoInicio;
-    }
-
-    public void setPosicaoFim(Posicao posicaoFim) {
-        this.posicaoFim = posicaoFim;
-    }
-
-    public void setPosicaoInicio(Posicao posicaoInicio) {
-        this.posicaoInicio = posicaoInicio;
-    }
-
-    public int horizontalDistance() {
-        return this.posicaoFim.getColuna() - this.posicaoInicio.getColuna();
-    }
-    
-    public int verticalDistance() {
-        return this.posicaoFim.getLinha() - this.posicaoInicio.getLinha();
+    public List<Posicao> getPosicoes() {
+        return posicoes;
     }
     
     public List<ActionPeca> getActions() {
