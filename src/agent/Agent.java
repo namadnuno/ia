@@ -41,7 +41,9 @@ public class Agent<E extends State> {
 
     public void executeSolution() {    
         System.out.println("Solution");
+        System.out.println(solution.getActions().size());
         for(Action action : solution.getActions()){
+            System.out.println("peca: " + ((ActionPeca) action).getPeca().getDigito());
             environment.executeAction(action, ((ActionPeca) action).getPeca());
         }
     }

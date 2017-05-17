@@ -14,16 +14,16 @@ public class ForkliftState extends State implements Cloneable {
     
     public static final int SIZE = 6;
     private int[][] matrix;
-    private int forkliftRow;  //linhacarrinho
-    private int forkliftColumm; //colunacarrinho
-    private Peca peca;
+    
+    public int forkliftRow;
+    public int forkliftColumm;
     
     private LinkedList<Peca> pecas;
     
     public ForkliftState(int[][] matrix) {
         this.matrix = new int[matrix.length][matrix.length];
 
-        /*for (int i = 0; i < matrix.length; i++) {
+        for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
                 this.matrix[i][j] = matrix[i][j];
                 if (this.matrix[i][j] == 1) {
@@ -31,7 +31,7 @@ public class ForkliftState extends State implements Cloneable {
                     forkliftColumm = j;
                 }
             }
-        }*/
+        }
         
         LinkedList<Posicao> posicoesExploradas = new LinkedList();
         pecas = new LinkedList();
@@ -42,11 +42,6 @@ public class ForkliftState extends State implements Cloneable {
                 
                 this.matrix[i][j] = matrix[i][j];
                 
-                if (this.matrix[i][j] == 1) {
-                    forkliftRow = i;
-                    forkliftColumm = j;
-                }
-                
                 boolean explorado = false;
                 
                 for(Posicao p :posicoesExploradas) {
@@ -56,10 +51,10 @@ public class ForkliftState extends State implements Cloneable {
                     }
                 }
                 
-                digito = matrix[i][j];
+                digito = this.matrix[i][j];
 
                 if (explorado) 
-                    break;
+                    continue;
                 
                 LinkedList<Posicao> posicoes = new LinkedList<Posicao>();
                 
@@ -80,10 +75,11 @@ public class ForkliftState extends State implements Cloneable {
                         tamanho = 3;
                         break;
                     case 8: 
-                    case 9:
+                    case 9: 
                         tamanho = 4;
                         break;
                     default:
+                        tamanho = 1;
                         break;
                 
                 }
@@ -92,18 +88,16 @@ public class ForkliftState extends State implements Cloneable {
                     for (int k = 0; k < tamanho; k++) {
                         if (tamanho % 2 == 0 || digito == 1) {
                             posicoesExploradas.add(new Posicao(i, j + k));
-                            posicoes.add(new Posicao(i, j + k));
                         } else {
                             posicoesExploradas.add(new Posicao(i + k, j));
-                            posicoes.add(new Posicao(i + k, j));
                         }
                     }
                     //System.out.println("digito: " + digito);
                     //System.out.println("Tamanho das posicoes: " + posicoes.size());
                     if(tamanho % 2 == 0  || digito == 1) {
-                        pecas.add(new PecaHorizontal(digito, posicoes));    //se for par ou 1 adicionar peça horizontal
+                        pecas.add(new PecaHorizontal(digito, tamanho, new Posicao(i, j)));    //se for par ou 1 adicionar peça horizontal
                     }else {
-                        pecas.add(new PecaVertical(digito, posicoes));      // caso seja impar e diferente de 1 adiiona peça vertical
+                        pecas.add(new PecaVertical(digito, tamanho, new Posicao(i, j)));      // caso seja impar e diferente de 1 adiiona peça vertical
                     }
                 }
             }
@@ -112,11 +106,7 @@ public class ForkliftState extends State implements Cloneable {
 
     @Override
     public void executeAction(Action action, Peca p) {
-        System.out.println(this.toString());
         action.execute(this, p);
-        System.out.println("---");
-        System.out.println(this.toString());
-
         firePuzzleChanged(null);
     }
 //
@@ -130,12 +120,12 @@ public class ForkliftState extends State implements Cloneable {
     }
 
     public boolean canMoveRight(Peca p) {
-        System.out.println("peca: " + p.getDigito());
-        if (p.getPosicaoFim().getColuna() != matrix.length - 1) {
-            if (matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoFim().getColuna() + 1] == 10) {
+        //System.out.println("peca: " + p.getDigito());
+        if ((p.getPosicaoInicio().getColuna() + p.getTamanho()) != matrix.length - 1) {
+            if (matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoInicio().getColuna() + p.getTamanho() + 1] == 10 && p.getDigito() == 1) {
                 return true;
             }
-            if (matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoFim().getColuna() + 1] == 0) {
+            if (matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoInicio().getColuna() + p.getTamanho() + 1] == 0) {
                 return true;
             }
             
@@ -144,7 +134,7 @@ public class ForkliftState extends State implements Cloneable {
     }
 
     public boolean canMoveDown(Peca p) {
-        if (p.getPosicaoFim().getLinha() != matrix.length -1) {
+        if ((p.getPosicaoInicio().getLinha() + p.getTamanho()) != matrix.length -1) {
             if (matrix[p.getPosicaoInicio().getLinha() + 1][p.getPosicaoInicio().getColuna()] == 0) {
                 return true;
             }
@@ -168,40 +158,28 @@ public class ForkliftState extends State implements Cloneable {
      * state was created whether the operation could be executed or not.
      */
     public void moveUp(Peca p) {
-        matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoInicio().getColuna()] = 0;
-        
-        for (Posicao posicao : p.getPosicoes()){
-            matrix[posicao.getLinha() - 1][posicao.getColuna()] = p.getDigito();
-            posicao.setLinha(posicao.getLinha() - 1);
-        }
+        matrix[p.getPosicaoInicio().getLinha() - 1][p.getPosicaoInicio().getColuna()] = matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoInicio().getColuna()];
+        matrix[p.getPosicaoInicio().getLinha() + p.getTamanho() -  1][p.getPosicaoInicio().getColuna()] = 0;
+        p.getPosicaoInicio().setLinha(p.getPosicaoInicio().getLinha() - 1);
     }
 
+    
     public void moveRight(Peca p) {
+        matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoInicio().getColuna() + p.getTamanho()] = matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoInicio().getColuna()];
         matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoInicio().getColuna()] = 0;
-
-        for (Posicao posicao : p.getPosicoes()){
-            matrix[posicao.getLinha()][posicao.getColuna() + 1] = p.getDigito();
-            posicao.setColuna(posicao.getColuna() + 1);
-        }
+        p.getPosicaoInicio().setColuna(p.getPosicaoInicio().getColuna()+ 1);
     }
 
     public void moveDown(Peca p) {
+        matrix[p.getPosicaoInicio().getLinha() + p.getTamanho()][p.getPosicaoInicio().getColuna()] = matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoInicio().getColuna()];
         matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoInicio().getColuna()] = 0;
-        
-        for (Posicao posicao : p.getPosicoes()){
-            matrix[posicao.getLinha() + 1][posicao.getColuna()] = p.getDigito();
-            posicao.setLinha(posicao.getLinha() + 1);
-        }
+        p.getPosicaoInicio().setLinha(p.getPosicaoInicio().getLinha() + 1);
     }
 
     public void moveLeft(Peca p) {
-        matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoInicio().getColuna()] = 0;
-
-        for (Posicao posicao : p.getPosicoes()){
-            matrix[posicao.getLinha()][posicao.getColuna() - 1] = p.getDigito();
-            posicao.setColuna(posicao.getColuna() - 1);
-        }
-        
+        matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoInicio().getColuna() - 1] = matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoInicio().getColuna()];
+        matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoInicio().getColuna() + p.getTamanho() -  1] = 0;
+        p.getPosicaoInicio().setColuna(p.getPosicaoInicio().getColuna() - 1);
     }
 
     public int getNumLines() {
@@ -281,7 +259,7 @@ public class ForkliftState extends State implements Cloneable {
     }
 
     public int getForkliftColumm() {
-      return forkliftColumm;
+      return getForklift().getPosicaoInicio().getColuna();
     }
 
     public int computeObjectsBetweenDoor() {
@@ -290,7 +268,7 @@ public class ForkliftState extends State implements Cloneable {
     }
 
     public int computeDistanceBetweenDoor() {
-        return (matrix.length-1)-getForkliftColumm();
+        return (matrix.length-1)-getForklift().getPosicaoInicio().getColuna();
     }
 
     public Iterable<Peca> getPecas() {
@@ -304,14 +282,4 @@ public class ForkliftState extends State implements Cloneable {
         }
         return null;
     }
-
-    public void setPeca(Peca peca) {
-        this.peca = peca;
-    }
-
-    public Peca getPeca() {
-        return peca;
-    }
-    
-    
 }

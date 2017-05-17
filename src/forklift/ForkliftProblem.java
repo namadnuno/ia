@@ -33,8 +33,8 @@ public class ForkliftProblem extends Problem<ForkliftState> {
             if (a.isValid(state, forklift)) {
                 ForkliftState successor = (ForkliftState) state.clone();
                 successor.executeAction(a, forklift);
-                successor.setPeca(forklift);
                 successors.add(successor);
+                System.out.println(successor.toString());
             } else {
                 flag = false;
             }
@@ -45,7 +45,6 @@ public class ForkliftProblem extends Problem<ForkliftState> {
                 if (a.isValid(state, p)) {
                     ForkliftState successor = (ForkliftState) state.clone();
                     successor.executeAction(a, p);
-                    System.out.println(successor.toString());
                     a.setPeca(p);
                     successors.add(successor);
                 }
