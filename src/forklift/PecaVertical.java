@@ -19,4 +19,9 @@ public class PecaVertical extends Peca{
         actions.add(new ActionDown());
     }
     
+    @Override
+    public Posicao getPosicaoFim() {
+        return new Posicao(this.posicaoInicial.getLinha() + tamanho - 1, this.posicaoInicial.getColuna());
+    }
+    
 }

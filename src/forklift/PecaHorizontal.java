@@ -19,5 +19,10 @@ public class PecaHorizontal extends Peca {
         actions.add(new ActionRight());
         actions.add(new ActionLeft());
     }
+
+    @Override
+    public Posicao getPosicaoFim() {
+        return new Posicao(this.posicaoInicial.getLinha(), this.posicaoInicial.getColuna() + tamanho - 1);
+    }
     
 }

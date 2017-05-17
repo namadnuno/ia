@@ -14,10 +14,10 @@ import java.util.List;
  * @author Rúben Gonçalves
  */
 public abstract class Peca {
-    private Posicao posicaoInicial;
+    protected Posicao posicaoInicial;
     private int digito;
     protected List <ActionPeca> actions;
-    private int tamanho;
+    protected int tamanho;
     
     public Peca(int digito, int tamanho, Posicao posicaoInicial) {
         this.digito = digito;
@@ -37,6 +37,7 @@ public abstract class Peca {
     public  Posicao getPosicaoInicio() {
         return posicaoInicial;
     }
+    public abstract Posicao getPosicaoFim();
 
     public int getTamanho() {
         return tamanho;

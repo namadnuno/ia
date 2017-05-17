@@ -121,11 +121,11 @@ public class ForkliftState extends State implements Cloneable {
 
     public boolean canMoveRight(Peca p) {
         //System.out.println("peca: " + p.getDigito());
-        if ((p.getPosicaoInicio().getColuna() + p.getTamanho()) != matrix.length - 1) {
-            if (matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoInicio().getColuna() + p.getTamanho() + 1] == 10 && p.getDigito() == 1) {
+        if ((p.getPosicaoFim().getColuna()) != matrix.length - 1) {
+            if (matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoFim().getColuna() + 1] == 10 && p.getDigito() == 1) {
                 return true;
             }
-            if (matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoInicio().getColuna() + p.getTamanho() + 1] == 0) {
+            if (matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoFim().getColuna() + 1] == 0) {
                 return true;
             }
             
@@ -134,8 +134,8 @@ public class ForkliftState extends State implements Cloneable {
     }
 
     public boolean canMoveDown(Peca p) {
-        if ((p.getPosicaoInicio().getLinha() + p.getTamanho()) != matrix.length -1) {
-            if (matrix[p.getPosicaoInicio().getLinha() + 1][p.getPosicaoInicio().getColuna()] == 0) {
+        if ((p.getPosicaoFim().getLinha()) != matrix.length -1) {
+            if (matrix[p.getPosicaoFim().getLinha() + 1][p.getPosicaoInicio().getColuna()] == 0) {
                 return true;
             }
         }
@@ -158,27 +158,30 @@ public class ForkliftState extends State implements Cloneable {
      * state was created whether the operation could be executed or not.
      */
     public void moveUp(Peca p) {
-        matrix[p.getPosicaoInicio().getLinha() - 1][p.getPosicaoInicio().getColuna()] = matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoInicio().getColuna()];
-        matrix[p.getPosicaoInicio().getLinha() + p.getTamanho() -  1][p.getPosicaoInicio().getColuna()] = 0;
+        matrix[p.getPosicaoInicio().getLinha() - 1][p.getPosicaoInicio().getColuna()] = p.getDigito();
+        matrix[p.getPosicaoFim().getLinha()][p.getPosicaoInicio().getColuna()] = 0;
+        
         p.getPosicaoInicio().setLinha(p.getPosicaoInicio().getLinha() - 1);
     }
 
     
     public void moveRight(Peca p) {
-        matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoInicio().getColuna() + p.getTamanho()] = matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoInicio().getColuna()];
+        matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoFim().getColuna() + 1] = p.getDigito();
         matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoInicio().getColuna()] = 0;
-        p.getPosicaoInicio().setColuna(p.getPosicaoInicio().getColuna()+ 1);
+        p.getPosicaoInicio().setColuna(p.getPosicaoInicio().getColuna() + 1);
     }
 
     public void moveDown(Peca p) {
-        matrix[p.getPosicaoInicio().getLinha() + p.getTamanho()][p.getPosicaoInicio().getColuna()] = matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoInicio().getColuna()];
+        matrix[p.getPosicaoFim().getLinha() + 1][p.getPosicaoInicio().getColuna()] = p.getDigito();
         matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoInicio().getColuna()] = 0;
+        
         p.getPosicaoInicio().setLinha(p.getPosicaoInicio().getLinha() + 1);
     }
 
     public void moveLeft(Peca p) {
-        matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoInicio().getColuna() - 1] = matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoInicio().getColuna()];
-        matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoInicio().getColuna() + p.getTamanho() -  1] = 0;
+        matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoInicio().getColuna() - 1] = p.getDigito();
+        matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoFim().getColuna()] = 0;
+        
         p.getPosicaoInicio().setColuna(p.getPosicaoInicio().getColuna() - 1);
     }
 
