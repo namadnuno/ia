@@ -2,9 +2,12 @@ package forklift;
 
 import agent.Action;
 import agent.State;
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
+import org.w3c.dom.NodeList;
 
 public class ForkliftState extends State implements Cloneable {
 
@@ -31,6 +34,7 @@ public class ForkliftState extends State implements Cloneable {
         }*/
         
         LinkedList<Posicao> posicoesExploradas = new LinkedList();
+        LinkedList<Posicao> posicoes;
         pecas = new LinkedList();
         int digito;
        
@@ -54,62 +58,47 @@ public class ForkliftState extends State implements Cloneable {
                 
                 if (explorado) 
                     break;
-                
+                posicoes = new LinkedList<Posicao>();
                 digito = matrix[i][j];
-                
+                int tamanho = 0;
                 switch(digito) {
                     
-                    case 1: 
-                        pecas.add(new PecaHorizontal(new Posicao(i, j),new Posicao(i, j), digito));
-                        posicoesExploradas.add(new Posicao(i, j));
-                        break;
+                    case 1:
                     case 2: 
-                        pecas.add(new PecaHorizontal(new Posicao(i, j),new Posicao(i, j), digito));
-                        posicoesExploradas.add(new Posicao(i, j));
+                    case 3:
+                        tamanho = 1;
                         break;
-                    case 3: 
-                        pecas.add(new PecaVertical(new Posicao(i, j),new Posicao(i, j), digito));
-                        posicoesExploradas.add(new Posicao(i, j));
-                        break;
-                    case 4: 
-                        pecas.add(new PecaHorizontal(new Posicao(i, j),new Posicao(i, j+1), digito));
-                        posicoesExploradas.add(new Posicao(i, j));
-                        posicoesExploradas.add(new Posicao(i, j+1));
-                        break;
-                    case 5: 
-                        pecas.add(new PecaVertical(new Posicao(i, j),new Posicao(i+1, j), digito));
-                        posicoesExploradas.add(new Posicao(i, j));
-                        posicoesExploradas.add(new Posicao(i+1, j));
+                    case 4:
+                    case 5:
+                        tamanho = 2;
                         break;
                     case 6: 
-                        pecas.add(new PecaHorizontal(new Posicao(i, j),new Posicao(i, j+2), digito));
-                        posicoesExploradas.add(new Posicao(i, j));
-                        posicoesExploradas.add(new Posicao(i, j+1));
-                        posicoesExploradas.add(new Posicao(i, j+2));
-                        break;
-                    case 7: 
-                        pecas.add(new PecaVertical(new Posicao(i, j),new Posicao(i+2, j), digito));
-                        posicoesExploradas.add(new Posicao(i, j));
-                        posicoesExploradas.add(new Posicao(i+1, j));
-                        posicoesExploradas.add(new Posicao(i+2, j));
+                    case 7:
+                        tamanho = 3;
                         break;
                     case 8: 
-                        pecas.add(new PecaHorizontal(new Posicao(i, j),new Posicao(i, j+3), digito));
-                        posicoesExploradas.add(new Posicao(i, j));
-                        posicoesExploradas.add(new Posicao(i, j+1));
-                        posicoesExploradas.add(new Posicao(i, j+2));
-                        posicoesExploradas.add(new Posicao(i, j+3));
-                        break;
-                    case 9: 
-                        pecas.add(new PecaVertical(new Posicao(i, j),new Posicao(i+3, j), digito));
-                        posicoesExploradas.add(new Posicao(i, j));
-                        posicoesExploradas.add(new Posicao(i+1, j));
-                        posicoesExploradas.add(new Posicao(i+2, j));
-                        posicoesExploradas.add(new Posicao(i+3, j));
+                    case 9:
+                        tamanho = 4;
                         break;
                     default:
                         break;
                 
+                }
+                
+                
+                for (int k = 0; k < tamanho; k++) {
+                    if(digito % 2 == 0 || digito == 1) {
+                        posicoesExploradas.add(new Posicao(i, j + k));
+                        posicoes.add(new Posicao(i, j + k));
+                    }else{
+                        posicoesExploradas.add(new Posicao(i + k, j));
+                        posicoes.add(new Posicao(i + k, j));
+                    }
+                }
+                if(digito % 2 == 0  || digito == 1) {
+                    pecas.add(new PecaHorizontal(digito, posicoes));    //se for par ou 1 adicionar peça horizontal
+                }else{
+                    pecas.add(new PecaVertical(digito, posicoes));      // caso seja impar e diferente de 1 adiiona peça vertical
                 }
             }
         }
@@ -176,6 +165,10 @@ public class ForkliftState extends State implements Cloneable {
         int linhaFim = p.getPosicaoFim().getLinha();
         
         matrix[linha][p.getPosicaoInicio().getColuna()] = 0;
+        
+        for (Posicao posicao : p.getPosicoes()){
+            matrix[linha - i][p.getPosicaoInicio().getColuna()] = p.getDigito();
+        }
         
         for (int i = 1; i <= p.verticalDistance() + 1; i++) {
             matrix[linha - i][p.getPosicaoInicio().getColuna()] = p.getDigito();

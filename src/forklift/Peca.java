@@ -18,8 +18,8 @@ public abstract class Peca {
     private int digito;
     protected List <ActionPeca> actions;
     
-    public Peca(Posicao posicaoInicio, Posicao posicaoFim, int digito) {
-        posicoes = new ArrayList<Posicao>();
+    public Peca(int digito, List<Posicao> posicoes) {
+        this.posicoes = posicoes;
         this.digito = digito;
         actions = new ArrayList<ActionPeca>();
     }
@@ -34,6 +34,14 @@ public abstract class Peca {
     
     public List<ActionPeca> getActions() {
         return actions;
+    }
+
+    public  Posicao getPosicaoInicio() {
+        return posicoes.get(0);
+    }
+
+    public Posicao getPosicaoFim() {
+        return  posicoes.get(posicoes.size()-1);
     }
     
     

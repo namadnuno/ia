@@ -5,14 +5,16 @@
  */
 package forklift;
 
+import java.util.List;
+
 /**
  *
  * @author Rúben Gonçalves
  */
 public class PecaVertical extends Peca{
     
-    public PecaVertical(Posicao posicaoInicio, Posicao posicaoFim, int digito) {
-        super(posicaoInicio, posicaoFim, digito);
+    public PecaVertical(int digito, List<Posicao> posicoes) {
+        super(digito, posicoes);
         actions.add(new ActionUp());
         actions.add(new ActionDown());
     }
