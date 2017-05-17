@@ -43,7 +43,7 @@ public abstract class Peca {
     public Posicao getPosicaoFim() {
         System.out.println("peca: " + digito);
         System.out.println("fim" + posicoes.size());
-        return  posicoes.get(posicoes.size());
+        return  posicoes.get(posicoes.size() - 1);
     }
     
     

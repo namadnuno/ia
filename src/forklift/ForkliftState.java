@@ -88,7 +88,7 @@ public class ForkliftState extends State implements Cloneable {
                 
                 }
                 
-                if(digito != 0) {
+                if(digito != 0 && digito != 10) {
                     for (int k = 0; k < tamanho; k++) {
                         if (tamanho % 2 == 0 || digito == 1) {
                             posicoesExploradas.add(new Posicao(i, j + k));
@@ -98,11 +98,11 @@ public class ForkliftState extends State implements Cloneable {
                             posicoes.add(new Posicao(i + k, j));
                         }
                     }
-                    System.out.println("digito: " + digito);
-                    System.out.println("Tamanho das posicoes: " + posicoes.size());
+                    //System.out.println("digito: " + digito);
+                    //System.out.println("Tamanho das posicoes: " + posicoes.size());
                     if(tamanho % 2 == 0  || digito == 1) {
                         pecas.add(new PecaHorizontal(digito, posicoes));    //se for par ou 1 adicionar peça horizontal
-                    }else{
+                    }else {
                         pecas.add(new PecaVertical(digito, posicoes));      // caso seja impar e diferente de 1 adiiona peça vertical
                     }
                 }
@@ -130,6 +130,7 @@ public class ForkliftState extends State implements Cloneable {
     }
 
     public boolean canMoveRight(Peca p) {
+        System.out.println("peca: " + p.getDigito());
         if (p.getPosicaoFim().getColuna() != matrix.length - 1) {
             if (matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoFim().getColuna() + 1] == 10) {
                 return true;
