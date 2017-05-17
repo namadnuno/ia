@@ -34,12 +34,12 @@ public class ForkliftState extends State implements Cloneable {
         }*/
         
         LinkedList<Posicao> posicoesExploradas = new LinkedList();
-        LinkedList<Posicao> posicoes;
         pecas = new LinkedList();
         int digito;
        
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
+                
                 this.matrix[i][j] = matrix[i][j];
                 
                 if (this.matrix[i][j] == 1) {
@@ -56,10 +56,13 @@ public class ForkliftState extends State implements Cloneable {
                     }
                 }
                 
+                digito = matrix[i][j];
+
                 if (explorado) 
                     break;
-                posicoes = new LinkedList<Posicao>();
-                digito = matrix[i][j];
+                
+                LinkedList<Posicao> posicoes = new LinkedList<Posicao>();
+                
                 int tamanho = 0;
                 switch(digito) {
                     
@@ -85,20 +88,23 @@ public class ForkliftState extends State implements Cloneable {
                 
                 }
                 
-                
-                for (int k = 0; k < tamanho; k++) {
-                    if(digito % 2 == 0 || digito == 1) {
-                        posicoesExploradas.add(new Posicao(i, j + k));
-                        posicoes.add(new Posicao(i, j + k));
-                    }else{
-                        posicoesExploradas.add(new Posicao(i + k, j));
-                        posicoes.add(new Posicao(i + k, j));
+                if(digito != 0) {
+                    for (int k = 0; k < tamanho; k++) {
+                        if (tamanho % 2 == 0 || digito == 1) {
+                            posicoesExploradas.add(new Posicao(i, j + k));
+                            posicoes.add(new Posicao(i, j + k));
+                        } else {
+                            posicoesExploradas.add(new Posicao(i + k, j));
+                            posicoes.add(new Posicao(i + k, j));
+                        }
                     }
-                }
-                if(digito % 2 == 0  || digito == 1) {
-                    pecas.add(new PecaHorizontal(digito, posicoes));    //se for par ou 1 adicionar peça horizontal
-                }else{
-                    pecas.add(new PecaVertical(digito, posicoes));      // caso seja impar e diferente de 1 adiiona peça vertical
+                    System.out.println("digito: " + digito);
+                    System.out.println("Tamanho das posicoes: " + posicoes.size());
+                    if(tamanho % 2 == 0  || digito == 1) {
+                        pecas.add(new PecaHorizontal(digito, posicoes));    //se for par ou 1 adicionar peça horizontal
+                    }else{
+                        pecas.add(new PecaVertical(digito, posicoes));      // caso seja impar e diferente de 1 adiiona peça vertical
+                    }
                 }
             }
         }
@@ -161,65 +167,39 @@ public class ForkliftState extends State implements Cloneable {
      * state was created whether the operation could be executed or not.
      */
     public void moveUp(Peca p) {
-        int linha = p.getPosicaoInicio().getLinha();
-        int linhaFim = p.getPosicaoFim().getLinha();
-        
-        matrix[linha][p.getPosicaoInicio().getColuna()] = 0;
+        matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoInicio().getColuna()] = 0;
         
         for (Posicao posicao : p.getPosicoes()){
-            matrix[linha - i][p.getPosicaoInicio().getColuna()] = p.getDigito();
+            matrix[posicao.getLinha() - 1][posicao.getColuna()] = p.getDigito();
+            posicao.setLinha(posicao.getLinha() - 1);
         }
-        
-        for (int i = 1; i <= p.verticalDistance() + 1; i++) {
-            matrix[linha - i][p.getPosicaoInicio().getColuna()] = p.getDigito();
-        }
-        
-        p.getPosicaoInicio().setLinha(linha - 1);
-        p.getPosicaoFim().setLinha(linhaFim - 1);
     }
 
     public void moveRight(Peca p) {
-        
-        int coluna = p.getPosicaoInicio().getColuna();
-        int colunaFim = p.getPosicaoFim().getColuna();
-        
-        matrix[p.getPosicaoInicio().getLinha()][coluna] = 0;
+        matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoInicio().getColuna()] = 0;
 
-        for (int i = 1; i <= p.horizontalDistance() + 1 ; i++) {
-            matrix[p.getPosicaoInicio().getLinha()][coluna + i] = p.getDigito();
+        for (Posicao posicao : p.getPosicoes()){
+            matrix[posicao.getLinha()][posicao.getColuna() + 1] = p.getDigito();
+            posicao.setColuna(posicao.getColuna() + 1);
         }
-        
-        p.getPosicaoInicio().setColuna(coluna + 1);
-        p.getPosicaoFim().setColuna(colunaFim + 1);
     }
 
     public void moveDown(Peca p) {
-        int linha = p.getPosicaoInicio().getLinha();
-        int linhaFim = p.getPosicaoFim().getLinha();
-
-        matrix[linha][p.getPosicaoInicio().getColuna()] = 0;
+        matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoInicio().getColuna()] = 0;
         
-        for (int i = 1; i <= p.horizontalDistance() + 1 ; i++) {
-            matrix[linha + i][p.getPosicaoInicio().getColuna()] = p.getDigito();
+        for (Posicao posicao : p.getPosicoes()){
+            matrix[posicao.getLinha() + 1][posicao.getColuna()] = p.getDigito();
+            posicao.setLinha(posicao.getLinha() + 1);
         }
-        
-        p.getPosicaoInicio().setLinha(linha + 1);
-        p.getPosicaoFim().setLinha(linhaFim + 1);
     }
 
     public void moveLeft(Peca p) {
-        
-        int coluna = p.getPosicaoInicio().getColuna();
-        int colunaFim = p.getPosicaoFim().getColuna();
-        
-        this.matrix[p.getPosicaoInicio().getLinha()][coluna] = 0;
-        
-        for (int i = 1; i <= p.horizontalDistance() + 1 ; i++) {
-            matrix[p.getPosicaoInicio().getLinha()][coluna - i] = p.getDigito();
+        matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoInicio().getColuna()] = 0;
+
+        for (Posicao posicao : p.getPosicoes()){
+            matrix[posicao.getLinha()][posicao.getColuna() - 1] = p.getDigito();
+            posicao.setColuna(posicao.getColuna() - 1);
         }
-        
-        p.getPosicaoInicio().setColuna(coluna - 1);
-        p.getPosicaoFim().setColuna(colunaFim - 1);
         
     }
 

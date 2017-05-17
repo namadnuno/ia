@@ -4,11 +4,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/BLDD/ia/src/forklift/Peca.java</file>
-            <file>file:/C:/Users/BLDD/ia/src/forklift/PecaHorizontal.java</file>
-            <file>file:/C:/Users/BLDD/ia/src/forklift/Posicao.java</file>
-            <file>file:/C:/Users/BLDD/ia/src/forklift/ForkliftState.java</file>
-            <file>file:/C:/Users/BLDD/ia/src/forklift/PecaVertical.java</file>
+            <file>file:/home/nuno/Documentos/ia/src/forklift/ForkliftState.java</file>
+            <file>file:/home/nuno/Documentos/ia/src/forklift/Peca.java</file>
+            <file>file:/home/nuno/Documentos/ia/src/forklift/ForkliftProblem.java</file>
         </group>
     </open-files>
 </project-private>
