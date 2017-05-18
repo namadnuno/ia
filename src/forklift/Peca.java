@@ -19,11 +19,34 @@ public abstract class Peca {
     protected List <ActionPeca> actions;
     protected int tamanho;
     
-    public Peca(int digito, int tamanho, Posicao posicaoInicial) {
+    public Peca(int digito, Posicao posicaoInicial) {
         this.digito = digito;
-        this.tamanho = tamanho;
         this.posicaoInicial = posicaoInicial;
         actions = new ArrayList<ActionPeca>();
+        
+        switch(digito) {
+
+            case 1:
+            case 2: 
+            case 3:
+                this.tamanho = 1;
+                break;
+            case 4:
+            case 5:
+                this.tamanho = 2;
+                break;
+            case 6: 
+            case 7:
+                this.tamanho = 3;
+                break;
+            case 8: 
+            case 9: 
+                this.tamanho = 4;
+                break;
+            default:
+                break;
+
+        }
     }
 
     public int getDigito() {

@@ -34,7 +34,7 @@ public class ForkliftProblem extends Problem<ForkliftState> {
                 ForkliftState successor = (ForkliftState) state.clone();
                 successor.executeAction(a, forklift);
                 successors.add(successor);
-                System.out.println(successor.toString());
+                //System.out.println(successor.toString());
             } else {
                 flag = false;
             }
@@ -56,7 +56,7 @@ public class ForkliftProblem extends Problem<ForkliftState> {
     
     @Override
     public boolean isGoal(ForkliftState state){
-        System.out.println("estou:" + state.getForkliftColumm());
+        //System.out.println("estou:" + state.getForkliftColumm());
         return state.getForkliftColumm() == state.getNumColumns()-1;
     }
     

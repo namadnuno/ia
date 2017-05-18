@@ -13,8 +13,8 @@ import java.util.List;
  */
 public class PecaVertical extends Peca{
     
-    public PecaVertical(int digito, int tamanho, Posicao posicao) {
-        super(digito, tamanho, posicao);
+    public PecaVertical(int digito, Posicao posicao) {
+        super(digito, posicao);
         actions.add(new ActionUp());
         actions.add(new ActionDown());
     }

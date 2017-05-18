@@ -14,8 +14,8 @@ import java.util.List;
  */
 public class PecaHorizontal extends Peca {
     
-    public PecaHorizontal(int digito, int tamanho, Posicao posicao) {
-        super(digito, tamanho, posicao);
+    public PecaHorizontal(int digito, Posicao posicao) {
+        super(digito, posicao);
         actions.add(new ActionRight());
         actions.add(new ActionLeft());
     }
