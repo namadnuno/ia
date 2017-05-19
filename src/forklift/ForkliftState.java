@@ -123,7 +123,6 @@ public class ForkliftState extends State implements Cloneable {
     }
 
     public boolean canMoveRight(Peca p) {
-        //System.out.println("peca: " + p.getDigito());
         if ((p.getPosicaoFim().getColuna()) != matrix.length - 1) {
             if (matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoFim().getColuna() + 1] == 10 && p.getDigito() == 1) {
                 return true;

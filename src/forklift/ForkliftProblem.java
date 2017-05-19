@@ -19,27 +19,6 @@ public class ForkliftProblem extends Problem<ForkliftState> {
         
         //percorrer peças
         
-        Peca forklift = state.getForklift();
-        
-        if(forklift == null) {
-            return null;
-        }
-        
-        boolean flag = true;
-        
-        do {
-            ActionPeca a = new ActionRight();
-            a.setPeca(forklift);
-            if (a.isValid(state, forklift)) {
-                ForkliftState successor = (ForkliftState) state.clone();
-                successor.executeAction(a, forklift);
-                successors.add(successor);
-                //System.out.println(successor.toString());
-            } else {
-                flag = false;
-            }
-        } while(flag == true);
-        
         for(Peca p: state.getPecas()) {
             for(ActionPeca a: p.getActions()){
                 if (a.isValid(state, p)) {
@@ -47,16 +26,51 @@ public class ForkliftProblem extends Problem<ForkliftState> {
                     successor.executeAction(a, p);
                     a.setPeca(p);
                     successors.add(successor);
+//                    System.out.println(successor);
                 }
             }
         }
+        
+//        Peca forklift = state.getForklift();
+//        
+//        if(forklift == null) {
+//            return null;
+//        }
+//        
+//        boolean flag = true;
+//        
+//        do {
+//            ActionPeca a = new ActionRight();
+//            a.setPeca(forklift);
+//            if (a.isValid(state, forklift)) {
+//                ForkliftState successor = (ForkliftState) state.clone();
+//                successor.executeAction(a, forklift);
+//                successors.add(successor);
+//                //System.out.println(successor.toString());
+//            } else {
+//                flag = false;
+//            }
+//        } while(flag == true);
+//        
+//        for(Peca p: state.getPecas()) {
+//            for(ActionPeca a: p.getActions()){
+//                if (a.isValid(state, p)) {
+//                    ForkliftState successor = (ForkliftState) state.clone();
+//                    successor.executeAction(a, p);
+//                    a.setPeca(p);
+//                    successors.add(successor);
+//                }
+//            }
+//        }
         
         return successors;
     } 
     
     @Override
     public boolean isGoal(ForkliftState state){
-        //System.out.println("estou:" + state.getForkliftColumm());
+        if (state.getForkliftColumm() == state.getNumColumns()-1){
+            System.out.println(state);
+        }
         return state.getForkliftColumm() == state.getNumColumns()-1;
     }
     
