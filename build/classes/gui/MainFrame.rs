@@ -1,9 +1,0 @@
-gui.ButtonReset_ActionAdapter
-gui.MainFrame
-gui.ButtonSolve_ActionAdapter
-gui.ButtonShowSolution_ActionAdapter
-gui.ButtonInitialState_ActionAdapter
-gui.ComboBoxSearchMethods_ActionAdapter
-gui.TextFieldSearchParameter_KeyAdapter
-gui.ComboBoxHeuristics_ActionAdapter
-gui.ButtonStop_ActionAdapter
