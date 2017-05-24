@@ -127,6 +127,7 @@ public class ForkliftState extends State implements Cloneable {
             if (matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoFim().getColuna() + 1] == 10 && p.getDigito() == 1) {
                 return true;
             }
+            
             if (matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoFim().getColuna() + 1] == 0) {
                 return true;
             }
@@ -167,7 +168,7 @@ public class ForkliftState extends State implements Cloneable {
             if (pe.getPosicaoInicio().getLinha() == p.getPosicaoInicio().getLinha() &&
                 pe.getPosicaoInicio().getColuna()== p.getPosicaoInicio().getColuna()) {
                 pe.getPosicaoInicio().setLinha(p.getPosicaoInicio().getLinha() - 1);
-                p.getPosicaoInicio().setLinha(p.getPosicaoInicio().getLinha() - 1);
+                break;
             }
         }
         
@@ -178,19 +179,17 @@ public class ForkliftState extends State implements Cloneable {
     public void moveRight(Peca p) {
         matrix[p.getPosicaoFim().getLinha()][p.getPosicaoFim().getColuna() + 1] = p.getDigito();
         matrix[p.getPosicaoInicio().getLinha()][p.getPosicaoInicio().getColuna()] = 0;
-        
+        if (p.getDigito() == 1) {
+            forkliftColumm++;
+        }
         int i = 0;
         for(Peca pe: pecas) {
             if (pe.getPosicaoInicio().getLinha() == p.getPosicaoInicio().getLinha() &&
                 pe.getPosicaoInicio().getColuna()== p.getPosicaoInicio().getColuna()) {
                 pe.getPosicaoInicio().setColuna(p.getPosicaoInicio().getColuna() + 1);
-                p.getPosicaoInicio().setColuna(p.getPosicaoInicio().getColuna() + 1);
+                break;
             }
         }
-        
-        
-        
-        
     }
 
     public void moveDown(Peca p) {
@@ -201,7 +200,7 @@ public class ForkliftState extends State implements Cloneable {
             if (pe.getPosicaoInicio().getLinha() == p.getPosicaoInicio().getLinha() &&
                 pe.getPosicaoInicio().getColuna()== p.getPosicaoInicio().getColuna()) {
                 pe.getPosicaoInicio().setLinha(p.getPosicaoInicio().getLinha() + 1);
-                p.getPosicaoInicio().setLinha(p.getPosicaoInicio().getLinha() + 1);
+                break;
             }
         }
         
@@ -215,7 +214,7 @@ public class ForkliftState extends State implements Cloneable {
             if (pe.getPosicaoInicio().getLinha() == p.getPosicaoInicio().getLinha() &&
                 pe.getPosicaoInicio().getColuna()== p.getPosicaoInicio().getColuna()) {
                 pe.getPosicaoInicio().setColuna(p.getPosicaoInicio().getColuna() - 1);
-                p.getPosicaoInicio().setColuna(p.getPosicaoInicio().getColuna() - 1);
+                break;
             }
         }
         
@@ -312,7 +311,7 @@ public class ForkliftState extends State implements Cloneable {
     }
 
     public Iterable<Peca> getPecas() {
-        return pecas;
+        return (Iterable<Peca>) pecas.clone();
     }
 
     public Peca getForklift() {

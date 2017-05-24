@@ -20,14 +20,14 @@ public class ForkliftProblem extends Problem<ForkliftState> {
         //percorrer peças
         
         for(Peca p: state.getPecas()) {
-            for(ActionPeca a: p.getActions()){
-                if (a.isValid(state, p)) {
-                    ForkliftState successor = (ForkliftState) state.clone();
-                    successor.executeAction(a, p);
-                    a.setPeca(p);
-                    successors.add(successor);
-//                    System.out.println(successor);
-                }
+            for(ActionPeca a: p.getActions()) {
+                    if (a.isValid(state, p)) {
+                        ForkliftState successor = (ForkliftState) state.clone();
+                        a.setPeca(p);
+                        successor.executeAction(a, p);
+                        successors.add(successor);
+                   //     System.out.println(successor);
+                    }
             }
         }
         
